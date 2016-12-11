@@ -1,0 +1,50 @@
+<h2>See all teams</h2>
+<div class="main">
+  <div class="left">
+    <h2>{{afc}}</h2>
+    <div class="leftleft">
+      <h4>AFC North</h4>
+      <div ng-repeat="teamAfc in AFClist">
+        <p ng-if="teamAfc.division_name === 'AFC North'">{{teamAfc.team_name}}</p>
+      </div>
+      <h4>AFC East</h4>
+      <div ng-repeat="teamAfc in AFClist">
+        <p ng-if="teamAfc.division_name === 'AFC East'">{{teamAfc.team_name}}</p>
+      </div>
+    </div>
+    <div class="leftright">
+      <h4>AFC South</h4>
+      <div ng-repeat="teamAfc in AFClist">
+        <p ng-if="teamAfc.division_name === 'AFC South'">{{teamAfc.team_name}}</p>
+      </div>
+      <h4>AFC West</h4>
+      <div ng-repeat="teamAfc in AFClist">
+        <p ng-if="teamAfc.division_name === 'AFC West'">{{teamAfc.team_name}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    <h2>{{nfc}}</h2>
+    <div class="rightleft">
+      <h4>NFC North</h4>
+      <div ng-repeat="teamNfc in NFClist">
+        <p ng-if="teamNfc.division_name === 'NFC North'">{{teamNfc.team_name}}</p>
+      </div>
+      <h4>NFC East</h4>
+      <div ng-repeat="teamNfc in NFClist">
+        <p ng-if="teamNfc.division_name === 'NFC East'">{{teamNfc.team_name}}</p>
+      </div>
+    </div>
+    <div class="rightright">
+      <h4>NFC South</h4>
+      <div ng-repeat="teamNfc in NFClist">
+        <p ng-if="teamNfc.division_name === 'NFC South'">{{teamNfc.team_name}}</p>
+      </div>
+      <h4>NFC West</h4>
+      <div ng-repeat="teamNfc in NFClist">
+        <p ng-if="teamNfc.division_name === 'NFC West'">{{teamNfc.team_name}}</p>
+      </div>
+    </div>
+  </div>
+</div>

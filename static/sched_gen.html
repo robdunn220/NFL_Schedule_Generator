@@ -1,0 +1,16 @@
+<h2>Generated Schedule</h2>
+<div class="scheduleViewer">
+  <table>
+    <tr>
+      <th>{{teams[team_name].name}}</th>
+    </tr>
+    <tr>
+      <th>Week</th>
+      <th>Opponent</th>
+    </tr>
+    <tr ng-repeat="item in teams[team_name].schedule">
+      <th>{{item.week}}</th>
+      <th>{{item.opponent}}</th>
+    </tr>
+  </table>
+</div>

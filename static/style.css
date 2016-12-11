@@ -1,0 +1,31 @@
+.main {
+  width: 100%;
+  text-align: center;
+  margin-left: 25%;
+}
+
+.left {
+  float: left;
+  margin-right: 5%;
+}
+
+.right {
+  float: left;
+  margin-left: 5%;
+}
+
+.leftleft {
+  float: left;
+}
+
+.leftright {
+  float: left;
+}
+
+.rightleft {
+  float: left;
+}
+
+.rightright {
+  float: left;
+}
