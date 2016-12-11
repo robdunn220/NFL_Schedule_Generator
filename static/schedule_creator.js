@@ -2,28 +2,27 @@ var app = angular.module('nfl_app', ['ui.router', 'ngCookies']);
 
 app.factory("NFL_Api", function factoryFunction($http, $rootScope) {
   var service = {};
+  // Makes a call to server.py to return all NFL teams
   service.displayAllTeams = function() {
     return $http({
       url: '/api/all_teams'
     });
   };
-  service.callForDivisionTeams = function(div_name) {
-    return $http({
-      url: '/api/div_search/' + div_name
-    });
-  };
-
   return service;
 });
 
+// Controller for the page that displays all NFL teams
 app.controller('AllTeamsController', function($scope, NFL_Api) {
+  // Service call for the data requested from the data base
   NFL_Api.displayAllTeams().success(function(results) {
+    // The teams are stored in a $scope variable, and sorted into the two arrays using the $scope.sortTeams method
     $scope.allTeams = results;
     $scope.AFClist = [];
     $scope.NFClist = [];
     $scope.sortTeams();
   });
 
+  // Function that sorts all of the teams into their respective conferences, and then divisions
   $scope.sortTeams = function () {
     for (var i = 0; i < $scope.allTeams.length; i++) {
       if ($scope.allTeams[i].conference_name === 'AFC') {
@@ -38,17 +37,18 @@ app.controller('AllTeamsController', function($scope, NFL_Api) {
   };
 });
 
-class Schedule {
-  constructor(name, division, schedule) {
-    this.name = name;
-    this.division = division;
-    this.schedule = schedule;
-  }
-}
-
 app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootScope, $cookies, $stateParams) {
+  // Class instantiation. Where should I put this though?
+  class Schedule {
+    constructor(name, division, schedule) {
+      this.name = name;
+      this.division = division;
+      this.schedule = schedule;
+    }
+  }
   $scope.schedule = [];
   $scope.weeksLeft = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+
   NFL_Api.displayAllTeams().success(function(res) {
     $scope.nflInfo = res;
     $scope.getTeamInfo($scope.nflInfo);
@@ -73,6 +73,11 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
     var randNum;
     var weekPicked;
     var otherConferenceOpponents = [];
+    var divisionNamesArray = [];
+    var divisionChosenArray = [];
+    var conferenceOpponents = [];
+    var randTeamNum;
+    var teamPicked;
     $scope.teams = [];
 
     nflInfo.forEach(function(team) {
@@ -91,7 +96,6 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
 
     var byeRandNum = Math.floor(3 + Math.random() * 11);
     weekPicked = $scope.weeksLeft[byeRandNum];
-    console.log(weekPicked);
     $scope.weeksLeft.splice(byeRandNum, 1);
     $scope.addToSched(weekPicked, 'Bye');
 
@@ -104,8 +108,6 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
       }
     });
 
-    var divisionNamesArray = [];
-    var divisionChosenArray = [];
     for (var d = 0; d < 12; d+=4) {
       divisionNamesArray.push(otherDivisionOpponents[d].division_name);
     }
@@ -125,15 +127,12 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
       $scope.addToSched(weekPicked, divisionChosenArray[a].team_name);
     }
 
-    var conferenceOpponents = [];
     nflInfo.forEach(function(team) {
       if ((team.conference_name === $scope.mainTeam.conference_name) && (team.division_name !== $scope.mainTeam.division_name) && (team.division_name !== chosenDivision)) {
         conferenceOpponents.push(team);
       }
     });
 
-    var randTeamNum;
-    var teamPicked;
     for (var x = 0; x < 4; x++) {
       randNum = (Math.floor(Math.random() * ($scope.weeksLeft.length - 1)));
       randTeamNum = (Math.floor(Math.random() * (conferenceOpponents.length - 1)));
