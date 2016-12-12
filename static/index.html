@@ -11,9 +11,8 @@
   </head>
   <body ng-app="nfl_app">
     <h1>NFL App</h1>
-    <a ui-sref="schedule_generator({team: team})"><button>Generate a new schedule!</button></a>
     <input type="text" ng-model="team" value="">
-    <button ng-click="" name="button"></button>
+    <a ui-sref="schedule_generator({team: team})"><button>Generate a new schedule!</button></a>
     <ui-view></ui-view>
   </body>
 </html>
