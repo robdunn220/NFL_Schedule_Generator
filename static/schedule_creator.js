@@ -155,8 +155,6 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
 
     $scope.team_name = $scope.mainTeam.team_name;
 
-    $scope.teams[$scope.team_name] = new Schedule($scope.team_name, $scope.mainTeam.division_name, $scope.schedule);
-    console.log($scope.teams[$scope.team_name].schedule);
     function compare(a,b) {
       if (a.week < b.week)
         return -1;
@@ -166,6 +164,8 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
     }
 
     $scope.schedule.sort(compare);
+
+    $scope.teams[$scope.team_name] = new Schedule($scope.team_name, $scope.mainTeam.division_name, $scope.schedule);    
   };
 });
 
