@@ -25,8 +25,6 @@ These rules include:
 ## Example implementation of the rules
 For the example, I will choose the Atlanta Falcons, my favorite NFL team.
 
-So, a schedule is being created for the Atlanta Falcons.
-
 First, a bye week is chosen from weeks 4-12 and assigned.
 
 Next, the divisional opponents must be assigned. The Falcons are in the NFC South, which is comprised of the Carolina Panthers, New Orleans Saints,
@@ -38,5 +36,9 @@ This means the Falcons have to play the Cardinals, Seahawks, 49ers, and Rams one
 The two remaining NFC divisions are the NFC North and NFC East. Any of these 8 teams can be chosen as opponents, regardless of division, 
 so lets pick the Packers and Bears.
 
-Lastly, lets say that the other conference division chosen is the AFC West, which is comprised of the Chiefs, Chargers, Broncos, and Raiders.
+Lastly, we need to pick a division from the other ocnference to play. The other conference division chosen can be the AFC West, which is comprised of the Chiefs, Chargers, Broncos, and Raiders.
 The Falcons must play each of these teams one time.
+
+There are a few more rules that the NFL uses, but for the scale of my project, at least as it currently exists, they are difficult to implement. The bye weeks are given out in a more spread out, methodical way, but it is relational to the other teams bye weeks, and at this point, I only generate the schedule for one team.
+
+Also, the inter-conferference divisional opponents are actually selected on a rotating schedule from year to year, but I am just randomly generating them for now.
