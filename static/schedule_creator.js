@@ -53,6 +53,7 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
 
   // Makes a service call to return all teams. Results are stored in a $scope var, and passed on
   NFL_Api.displayAllTeams().success(function(res) {
+    // This is the code for the original SINGLE team generation
     $scope.nflInfo = res;
     $scope.getTeamInfo($scope.nflInfo);
   });
@@ -64,12 +65,15 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
 
   // Takes the user input, finds the team in the nflInfo object, and assigns that to the mainTeam var, which is the team the schedule will be created for
   $scope.getTeamInfo = function (nflInfo) {
-    nflInfo.forEach(function(team) {
-      if (team.team_name === $stateParams.team) {
-        $scope.mainTeam = team;
-        $scope.scheduleCreator(nflInfo);
-      }
-    });
+    // This is the code for the original SINGLE team generation
+    // nflInfo.forEach(function(team) {
+    //   if (team.team_name === $stateParams.team) {
+    //     $scope.mainTeam = team;
+    //     $scope.scheduleCreator(nflInfo);
+    //   }
+    // });
+
+    
   };
 
   // Main schedule-generating function
