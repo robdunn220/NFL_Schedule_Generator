@@ -66,14 +66,12 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
   // Takes the user input, finds the team in the nflInfo object, and assigns that to the mainTeam var, which is the team the schedule will be created for
   $scope.getTeamInfo = function (nflInfo) {
     // This is the code for the original SINGLE team generation
-    // nflInfo.forEach(function(team) {
-    //   if (team.team_name === $stateParams.team) {
-    //     $scope.mainTeam = team;
-    //     $scope.scheduleCreator(nflInfo);
-    //   }
-    // });
-
-    
+    nflInfo.forEach(function(team) {
+      if (team.team_name === $stateParams.team) {
+        $scope.mainTeam = team;
+        $scope.scheduleCreator(nflInfo);
+      }
+    });
   };
 
   // Main schedule-generating function
@@ -84,7 +82,9 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
     var weekPicked;
     var otherConferenceOpponents = [];
     var divisionNamesArray = [];
+    var otherConfDivNamesArray = [];
     var divisionChosenArray = [];
+    var otherConfDivChosenArray = [];
     var conferenceOpponents = [];
     var randTeamNum;
     var teamPicked;
@@ -107,8 +107,6 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
 
     // First assignment to schedule. Picks a random number between 4 and 12 and assigns a bye to that week.
     var byeRandNum = (Math.floor(Math.random() * 9) + 3);
-    console.log(byeRandNum);
-    console.log($scope.weeksLeft[byeRandNum]);
     var byeWeekPicked = $scope.weeksLeft[byeRandNum];
     $scope.weeksLeft.splice(byeRandNum, 1);
     $scope.addToSched(byeWeekPicked, 'Bye');
@@ -136,12 +134,31 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
       }
     });
 
-    for (var a = 0; a < 4; a++) {
+    divisionChosenArray.forEach(function(team) {
       randNum = (Math.floor(Math.random() * ($scope.weeksLeft.length - 1)));
       weekPicked = $scope.weeksLeft[randNum];
       $scope.weeksLeft.splice(randNum, 1);
-      $scope.addToSched(weekPicked, divisionChosenArray[a].team_name);
+      $scope.addToSched(weekPicked, team.team_name);
+    });
+
+    for (var l = 0; l < 16; l+=4) {
+      otherConfDivNamesArray.push(otherConferenceOpponents[l].division_name);
     }
+
+    var randOtherConfPicker = (Math.floor(Math.random() * (otherConfDivNamesArray.length - 1)));
+    var chosenDivisionOtherConf = otherConfDivNamesArray[randOtherConfPicker];
+    otherConferenceOpponents.forEach(function(team) {
+      if (team.division_name === chosenDivisionOtherConf) {
+        otherConfDivChosenArray.push(team);
+      }
+    });
+
+    otherConfDivChosenArray.forEach(function(team) {
+      randNum = (Math.floor(Math.random() * ($scope.weeksLeft.length - 1)));
+      weekPicked = $scope.weeksLeft[randNum];
+      $scope.weeksLeft.splice(randNum, 1);
+      $scope.addToSched(weekPicked, team.team_name);
+    });
 
     nflInfo.forEach(function(team) {
       if ((team.conference_name === $scope.mainTeam.conference_name) && (team.division_name !== $scope.mainTeam.division_name) && (team.division_name !== chosenDivision)) {
@@ -149,7 +166,7 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
       }
     });
 
-    for (var x = 0; x < 4; x++) {
+    for (var x = 0; x < 2; x++) {
       randNum = (Math.floor(Math.random() * ($scope.weeksLeft.length - 1)));
       randTeamNum = (Math.floor(Math.random() * (conferenceOpponents.length - 1)));
       weekPicked = $scope.weeksLeft[randNum];
@@ -157,16 +174,6 @@ app.controller('ScheduleGeneratorController', function($scope, NFL_Api, $rootSco
       $scope.weeksLeft.splice(randNum, 1);
       $scope.addToSched(weekPicked, teamPicked.team_name);
       conferenceOpponents.splice(randTeamNum, 1);
-    }
-
-    for (var c = 0; c < 2; c++) {
-      randNum = (Math.floor(Math.random() * ($scope.weeksLeft.length - 1)));
-      randTeamNum = (Math.floor(Math.random() * (otherConferenceOpponents.length - 1)));
-      weekPicked = $scope.weeksLeft[randNum];
-      teamPicked = otherConferenceOpponents[randTeamNum];
-      $scope.weeksLeft.splice(randNum, 1);
-      $scope.addToSched(weekPicked, teamPicked.team_name);
-      otherConferenceOpponents.splice(randTeamNum, 1);
     }
 
     $scope.team_name = $scope.mainTeam.team_name;
